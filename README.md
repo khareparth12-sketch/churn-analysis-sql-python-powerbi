@@ -1,6 +1,7 @@
 # Customer Churn Analysis – Telecommunications Industry
 
 ## Overview
+
 This project analyzes customer churn patterns in a telecom company using exploratory data analysis, data cleaning, and segmentation techniques. The goal is to identify high-risk customer profiles and propose actionable retention strategies.
 
 ## Tools & Technologies
