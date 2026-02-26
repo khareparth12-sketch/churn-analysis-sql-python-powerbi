@@ -50,6 +50,7 @@ The insights from this project enable targeted retention strategies, improved cu
 ## Future Work
 
 - Build machine learning models for churn prediction
+- Comparing different modelss
 - Develop interactive dashboards
 - Integrate real-time monitoring systems
 - Perform A/B testing on retention strategies
