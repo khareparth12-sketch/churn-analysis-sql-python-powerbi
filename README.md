@@ -15,8 +15,12 @@ This project analyzes customer churn patterns in a telecom company using explora
 
 data/
  ├── raw/
- ├── interim/
  └── processed/
+
+models/
+ ├── logistics+model.pkl
+ ├── rf_model.pkl
+ ├── scaler.pkl
 
 notebooks/
  ├── 01_data_overview.ipynb
@@ -25,7 +29,9 @@ notebooks/
 
 sql/
 dashboards/
+
 reports/
+ ├── churn_analysis_report.md
 
 ## Methodology
 
