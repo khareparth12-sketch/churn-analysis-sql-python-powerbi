@@ -6,7 +6,7 @@ This project analyzes customer churn patterns in a telecom company using explora
 
 ## Tools & Technologies
 
-- Python (Pandas, NumPy, Matplotlib, Seaborn)
+- Python (Pandas, NumPy, Matplotlib, Seaborn, sklearn, joblib)
 - Jupyter Notebook
 - SQL
 - Git
