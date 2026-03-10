@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import joblib
 import pandas as pd
+from utils import FEATURE_COLUMNS
 
 app = FastAPI(title="Customer Churn Prediction API")
 
@@ -15,6 +16,7 @@ def home():
 def predict(data: dict):
 
     df = pd.DataFrame([data])
+    df = df.reindex(columns=FEATURE_COLUMNS, fill_value=0)
     df_scaled = scaler.transform(df)
 
     prob = model.predict_proba(df_scaled)[0][1]
