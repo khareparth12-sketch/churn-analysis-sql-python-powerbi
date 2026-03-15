@@ -63,8 +63,9 @@ dashboard/                      # (Pending) PowerBI/Tableau dashboard files
 
 ## API Usage
 
-The XGBoost model is served at the `/predict` endpoint via FastApi. 
+The XGBoost model is served at the `/predict` endpoint via FastApi.
 You can run the API locally using:
+
 ```bash
 uvicorn api.app:app --reload
 ```
