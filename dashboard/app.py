@@ -15,6 +15,12 @@ st.set_page_config(
 
 st.title("📊 Customer Churn Prediction & Analytics Dashboard")
 
+tab1, tab2, tab3 = st.tabs([
+    "📊 Analytics",
+    "🔮 Prediction",
+    "🧑 Explorer"
+])
+
 # -----------------------------
 # LOAD DATA
 # -----------------------------
