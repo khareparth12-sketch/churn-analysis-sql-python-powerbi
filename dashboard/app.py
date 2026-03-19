@@ -56,182 +56,185 @@ col2.metric("Churn Rate", f"{churn_rate:.2f}%")
 col3.metric("Avg Monthly Charges", f"${avg_monthly:.2f}")
 col4.metric("Avg Tenure", f"{avg_tenure:.1f} months")
 
-st.divider()
+#st.divider()
 
 # -----------------------------
 # CHURN ANALYSIS
 # -----------------------------
-st.subheader("Customer Churn Analysis")
+with tab1:
+    st.subheader("Customer Churn Analysis")
 
-col1, col2 = st.columns(2)
+    col1, col2 = st.columns(2)
 
-# Churn distribution
-with col1:
-    churn_counts = df["ChurnLabel"].value_counts()
+    # Churn distribution
+    with col1:
+        churn_counts = df["ChurnLabel"].value_counts()
 
-    fig = px.pie(
-        values=churn_counts.values,
-        names=churn_counts.index,
-        title="Customer Churn Distribution"
-    )
+        fig = px.pie(
+            values=churn_counts.values,
+            names=churn_counts.index,
+            title="Customer Churn Distribution"
+        )
 
-    st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
 
-# Tenure vs churn
-with col2:
-    fig = px.box(
-        df,
-        x="ChurnLabel",
-        y="tenure",
-        title="Tenure vs Churn"
-    )
+    # Tenure vs churn
+    with col2:
+        fig = px.box(
+            df,
+            x="ChurnLabel",
+            y="tenure",
+            title="Tenure vs Churn"
+        )
 
-    st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
 
-col3, col4 = st.columns(2)
+    col3, col4 = st.columns(2)
 
-# Monthly charges vs churn
-with col3:
-    fig = px.box(
-        df,
-        x="ChurnLabel",
-        y="MonthlyCharges",
-        title="Monthly Charges vs Churn"
-    )
+    # Monthly charges vs churn
+    with col3:
+        fig = px.box(
+            df,
+            x="ChurnLabel",
+            y="MonthlyCharges",
+            title="Monthly Charges vs Churn"
+        )
 
-    st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
 
-# Contract type vs churn
-with col4:
-    fig = px.histogram(
-        df,
-        x="ContractType",
-        color="ChurnLabel",
-        title="Contract Type vs Churn",
-        barmode="group"
-    )
+    # Contract type vs churn
+    with col4:
+        fig = px.histogram(
+            df,
+            x="ContractType",
+            color="ChurnLabel",
+            title="Contract Type vs Churn",
+            barmode="group"
+        )
 
-    st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True)
 
 # -----------------------------
 # CUSTOMER EXPLORER
 # -----------------------------
-st.divider()
-st.subheader("🧑 Customer Explorer")
+#st.divider()
+with tab3:
+    st.subheader("🧑 Customer Explorer")
 
-customer_index = st.selectbox(
-    "Select a customer from dataset",
-    df.index
-)
+    customer_index = st.selectbox(
+        "Select a customer from dataset",
+        df.index
+    )
 
-customer_data = df.loc[customer_index]
+    customer_data = df.loc[customer_index]
 
-st.write("### Selected Customer Profile")
+    st.write("### Selected Customer Profile")
 
-st.dataframe(customer_data)
+    st.dataframe(customer_data)
 
 # -----------------------------
 # LIVE CHURN PREDICTION
 # -----------------------------
 
 st.divider()
-st.subheader("🔮 Live Customer Churn Prediction")
+with tab2:
+    st.subheader("🔮 Live Customer Churn Prediction")
 
-with st.form("prediction_form"):
+    with st.form("prediction_form"):
 
-    st.write("Enter customer information")
+        st.write("Enter customer information")
 
-    col1, col2 = st.columns(2)
+        col1, col2 = st.columns(2)
 
-    with col1:
-        tenure = st.number_input(
-            "Tenure (months)",
-            0,
-            100,
-            int(customer_data["tenure"])
-        )
-        
-        monthly = st.number_input(
-            "Monthly Charges",
-            0.0,
-            200.0,
-            float(customer_data["MonthlyCharges"])
-        )
-        
-        total = st.number_input(
-            "Total Charges",
-            0.0,
-            10000.0,
-            float(customer_data["TotalCharges"])
-        )
+        with col1:
+            tenure = st.number_input(
+                "Tenure (months)",
+                0,
+                100,
+                int(customer_data["tenure"])
+            )
 
-    with col2:
-        senior = st.selectbox("Senior Citizen", [0,1])
-        partner = st.selectbox("Has Partner", [0,1])
-        dependents = st.selectbox("Has Dependents", [0,1])
+            monthly = st.number_input(
+                "Monthly Charges",
+                0.0,
+                200.0,
+                float(customer_data["MonthlyCharges"])
+            )
 
-    submitted = st.form_submit_button("Predict Churn Risk")
+            total = st.number_input(
+                "Total Charges",
+                0.0,
+                10000.0,
+                float(customer_data["TotalCharges"])
+            )
 
-if submitted:
+        with col2:
+            senior = st.selectbox("Senior Citizen", [0,1])
+            partner = st.selectbox("Has Partner", [0,1])
+            dependents = st.selectbox("Has Dependents", [0,1])
 
-    payload = {
-        "gender": 1,
-        "SeniorCitizen": senior,
-        "Partner": partner,
-        "Dependents": dependents,
-        "tenure": tenure,
-        "PhoneService": 1,
-        "PaperlessBilling": 1,
-        "MonthlyCharges": monthly,
-        "TotalCharges": total,
-        "MultipleLines_No phone service": 0,
-        "MultipleLines_Yes": 1,
-        "InternetService_Fiber optic": 1,
-        "InternetService_No": 0,
-        "OnlineSecurity_Yes": 0,
-        "OnlineBackup_Yes": 1,
-        "DeviceProtection_Yes": 1,
-        "TechSupport_Yes": 0,
-        "StreamingTV_Yes": 1,
-        "StreamingMovies_Yes": 1,
-        "Contract_One year": 0,
-        "Contract_Two year": 0,
-        "PaymentMethod_Credit card (automatic)": 0,
-        "PaymentMethod_Electronic check": 1,
-        "PaymentMethod_Mailed check": 0
-    }
+        submitted = st.form_submit_button("Predict Churn Risk")
 
-    try:
-        response = requests.post("http://localhost:8000/predict", json=payload)
+    if submitted:
 
-        result = response.json()
+        payload = {
+            "gender": 1,
+            "SeniorCitizen": senior,
+            "Partner": partner,
+            "Dependents": dependents,
+            "tenure": tenure,
+            "PhoneService": 1,
+            "PaperlessBilling": 1,
+            "MonthlyCharges": monthly,
+            "TotalCharges": total,
+            "MultipleLines_No phone service": 0,
+            "MultipleLines_Yes": 1,
+            "InternetService_Fiber optic": 1,
+            "InternetService_No": 0,
+            "OnlineSecurity_Yes": 0,
+            "OnlineBackup_Yes": 1,
+            "DeviceProtection_Yes": 1,
+            "TechSupport_Yes": 0,
+            "StreamingTV_Yes": 1,
+            "StreamingMovies_Yes": 1,
+            "Contract_One year": 0,
+            "Contract_Two year": 0,
+            "PaymentMethod_Credit card (automatic)": 0,
+            "PaymentMethod_Electronic check": 1,
+            "PaymentMethod_Mailed check": 0
+        }
 
-        prob = result["churn_probability"]
-        risk = result["churn_risk"]
+        try:
+            response = requests.post("http://localhost:8000/predict", json=payload)
 
-        # Gauge chart
-        fig = go.Figure(go.Indicator(
-            mode="gauge+number",
-            value=prob * 100,
-            title={'text': "Churn Probability (%)"},
-            gauge={
-                'axis': {'range': [0, 100]},
-                'bar': {'color': "black"},
-                'steps': [
-                    {'range': [0, 35], 'color': "green"},
-                    {'range': [35, 65], 'color': "orange"},
-                    {'range': [65, 100], 'color': "red"}
-                ],
-            }
-        ))
+            result = response.json()
 
-        st.plotly_chart(fig, use_container_width=True)
+            prob = result["churn_probability"]
+            risk = result["churn_risk"]
 
-        # Risk message
-        if risk == "High":
-            st.error("⚠️ High Churn Risk")
-        else:
-            st.success("✅ Low Churn Risk")
+            # Gauge chart
+            fig = go.Figure(go.Indicator(
+                mode="gauge+number",
+                value=prob * 100,
+                title={'text': "Churn Probability (%)"},
+                gauge={
+                    'axis': {'range': [0, 100]},
+                    'bar': {'color': "black"},
+                    'steps': [
+                        {'range': [0, 35], 'color': "green"},
+                        {'range': [35, 65], 'color': "orange"},
+                        {'range': [65, 100], 'color': "red"}
+                    ],
+                }
+            ))
 
-    except Exception as e:
-        st.error("API not reachable")
+            st.plotly_chart(fig, width="stretch")
+
+            # Risk message
+            if risk == "High":
+                st.error("⚠️ High Churn Risk")
+            else:
+                st.success("✅ Low Churn Risk")
+
+        except Exception as e:
+            st.error("API not reachable")
