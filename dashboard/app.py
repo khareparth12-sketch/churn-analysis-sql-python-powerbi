@@ -13,12 +13,12 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("📊 Customer Churn Prediction & Analytics Dashboard")
+st.title(" Customer Churn Prediction & Analytics Dashboard")
 
 tab1, tab2, tab3 = st.tabs([
-    "📊 Analytics",
-    "🔮 Prediction",
-    "🧑 Explorer"
+    " Analytics",
+    " Prediction",
+    " Explorer"
 ])
 
 # -----------------------------
@@ -62,6 +62,7 @@ col4.metric("Avg Tenure", f"{avg_tenure:.1f} months")
 # CHURN ANALYSIS
 # -----------------------------
 with tab1:
+    st.markdown("### ")
     st.subheader("Customer Churn Analysis")
 
     col1, col2 = st.columns(2)
@@ -119,7 +120,8 @@ with tab1:
 # -----------------------------
 #st.divider()
 with tab3:
-    st.subheader("🧑 Customer Explorer")
+    st.markdown("### ")
+    st.subheader(" Customer Explorer")
 
     customer_index = st.selectbox(
         "Select a customer from dataset",
@@ -138,7 +140,8 @@ with tab3:
 
 st.divider()
 with tab2:
-    st.subheader("🔮 Live Customer Churn Prediction")
+    st.markdown("### ")
+    st.subheader(" Live Customer Churn Prediction")
 
     with st.form("prediction_form"):
 
@@ -232,9 +235,9 @@ with tab2:
 
             # Risk message
             if risk == "High":
-                st.error("⚠️ High Churn Risk")
+                st.error(" High Churn Risk")
             else:
-                st.success("✅ Low Churn Risk")
+                st.success(" Low Churn Risk")
 
         except Exception as e:
             st.error("API not reachable")
