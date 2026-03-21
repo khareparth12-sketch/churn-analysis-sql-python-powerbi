@@ -132,7 +132,7 @@ with tab3:
 
     st.write("### Selected Customer Profile")
 
-    st.dataframe(customer_data)
+    st.dataframe(customer_data.to_frame().astype(str))
 
 # -----------------------------
 # LIVE CHURN PREDICTION
@@ -208,7 +208,7 @@ with tab2:
         }
 
         try:
-            response = requests.post("http://localhost:8000/predict", json=payload)
+            response = requests.post("http://0.0.0.0:8000/predict", json=payload)
 
             result = response.json()
 
